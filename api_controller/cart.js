@@ -69,13 +69,13 @@ const deleteCartElement = async (req, res) => {
     }
 }
 const deleteAllCart = async (req, res) => {
-    if (!req?.params?.userId) {
+    if (!req?.params?.id) {
         return res.sendStatus(400).json({ 'message': 'user id parameter is required' });
     }
 
     try {
         const updatedUser = await users.findOneAndUpdate(
-            { _id: req.params.userId },
+            { _id: req.params.id },
             { $set: { cart: [] } },
             { new: true }
         );

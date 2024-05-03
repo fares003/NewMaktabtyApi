@@ -37,7 +37,7 @@ app.use(verifyJWT);
 app.use("/books", require("./routes/books"));
 app.use("/updateCount",require('./routes/count'))
 app.use("/cart",require('./routes/cart'))
-
+app.use('/genres',require("./routes/genresRouters"))
 app.all("*", (req, res) => {
   res.status(404);
 
