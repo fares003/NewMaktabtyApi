@@ -18266,3 +18266,9 @@
 20240505	12:39:01	763990f6-6a81-4dd2-8d03-6dc32e933390	GET	https://delicate-muffin-c6a2f0.netlify.app	/cart/undefined
 20240505	12:39:08	0eab05ee-2293-4581-9e6b-efe974b70c00	OPTIONS	https://delicate-muffin-c6a2f0.netlify.app	/books?search=
 20240505	12:39:08	c9e9cf60-27e2-42af-b1a8-c71312d2fbc8	GET	https://delicate-muffin-c6a2f0.netlify.app	/books?search=
+20240505	13:32:57	e1b433fc-0f53-4657-9be0-9da775c62d41	OPTIONS	http://localhost:3000	/login
+20240505	13:32:57	eb016926-7e9c-4e76-8cd9-f8e251266f32	POST	http://localhost:3000	/login
+20240505	13:32:57	4cf9b9a6-60b7-4256-ad3e-769c3ed32298	OPTIONS	http://localhost:3000	/genres
+20240505	13:32:58	afd5f066-812c-4f41-9eaa-08eb75434e44	OPTIONS	http://localhost:3000	/cart/66240e581e891789637a9f93
+20240505	13:32:58	fa3c4c62-9030-4b11-937a-185e003c4bca	GET	http://localhost:3000	/cart/66240e581e891789637a9f93
+20240505	13:32:58	a8dc1eb2-7098-4786-b381-b5ae21fc659c	GET	http://localhost:3000	/genres

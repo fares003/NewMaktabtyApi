@@ -8,6 +8,7 @@ const allowedOrigins = [
     'http://maktabty.surge.sh',
     'https://delicate-muffin-c6a2f0.netlify.app',
     'https://delicate-muffin-c6a2f0.netlify.app/',
+    'https://piquant-freezing-pail.glitch.me'
 
 
 ];
