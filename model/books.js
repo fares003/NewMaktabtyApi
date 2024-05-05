@@ -54,6 +54,10 @@ const booksSchema = new Schema({
       pages:{
         type:Number,
         required:true
+      },
+      sale:{
+        type:Number,
+        required:true
       }
 
     

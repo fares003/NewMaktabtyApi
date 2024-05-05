@@ -11,7 +11,7 @@ const corsOptions = require("./config/corsOptions");
 const verifyJWT = require('./middlewares/verifyJWT');
 const errorHandler = require('./middlewares/errorHandler');
 const cookieParser = require('cookie-parser');
-
+const stripe=require('stripe')(process.env.STRIPE_SECRET_KEY)
 const path = require('path');
 
 connectDB();
@@ -38,6 +38,31 @@ app.use("/books", require("./routes/books"));
 app.use("/updateCount",require('./routes/count'))
 app.use("/cart",require('./routes/cart'))
 app.use('/genres',require("./routes/genresRouters"))
+app.get('/config',(req,res)=>{
+  res.send({
+    publishableKey:process.env.STRIPE_PUBLISHABLE_KEY
+  })
+})
+app.post('/create-payment-intent', async(req,res)=>{
+  try {
+    const paymentIntent=await stripe.paymentIntents.create({
+      currency:'eur',
+      amount:1999,
+      automatic_payment_methods:{
+      
+          // Enable automatic confirmation for card payments
+          enabled: true
+       
+      }
+    });
+    res.send({ clientSecret: paymentIntent.client_secret });
+  } catch (error) {
+    console.error(error); 
+    res.status(400).send({'message':error})
+  }
+});
+
+
 app.all("*", (req, res) => {
   res.status(404);
 

@@ -34,12 +34,12 @@ const createNewBooks = async (req, res) => {
         publishingdate:req.body.publishingdate,
         categories:req.body.categories,
         cont:req.body.cont,
-        pages:req.body.pages
+        pages:req.body.pages,
+        sale:req.body.sale
     };
 
     try {
         const result = await Books.create(newBooks);
-        console.log(result);
         res.status(201).json(result);
     } catch (err) {
         res.status(500).json({ 'message': err.message });
@@ -65,6 +65,7 @@ const updateBooks = async (req, res) => {
     if(req.body.publishingdate)books.publishingdate=req.body.publishingdate
     if(req.body.categories)books.categories=req.body.categories
     if(req.body.cont)books.cont=req.body.cont
+    if(req.body.sale)books.sale=req.body.sale
 
     await books.save();
 

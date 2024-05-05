@@ -10,8 +10,8 @@ const addGenres = async (req, res) => {
          "genre":newGenre
         });   
         console.log(result);
-  
-   return res.status(201).json({ 'message': 'Genre added successfully.' });
+        const genres = await Genre.find();
+        return res.status(200).json(genres);
     } catch (error) {
         console.error(error);
         return res.status(500).json({ 'message': 'Failed to add genre.' });
@@ -19,27 +19,26 @@ const addGenres = async (req, res) => {
 };
 
 const deleteGenres = async (req, res) => {
-    try {
-        const genreToDelete = req.params.genre;
-        if (!genreToDelete || typeof genreToDelete !== 'string') {
-            return res.status(400).json({ 'message': 'Invalid genre parameter.' });
-        }
-        await Genre.updateOne({}, { $pull: { genre: genreToDelete } });
-        return res.status(200).json({ 'message': 'Genre deleted successfully.' });
-    } catch (error) {
-        console.error(error);
-        return res.status(500).json({ 'message': 'Failed to delete genre.' });
+    if (!req?.params?.id) {
+        return res.status(400).json({ 'message': 'id parameter is required.' });
     }
+
+    const books = await Genre.findOne({ _id: req.params.id }).exec();
+    if (!books) {
+        return res.status(400).json({ "message": `Books ID ${req.params.id} not found` });
+    }
+
+    const result = await Genre.deleteOne({ _id: req.params.id });
+    res.json(result);
 };
 
 const getAllGenres = async (req, res) => {
     try {
-        const allGenres = await Genre.findOne();
-        return res.status(200).json(Genre);
+        const genres = await Genre.find();
+        return res.status(200).json(genres);
     } catch (error) {
         console.error(error);
         return res.status(500).json({ 'message': 'Failed to fetch genres.' });
     }
 };
-
 module.exports = { addGenres, deleteGenres, getAllGenres };
