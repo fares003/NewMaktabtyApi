@@ -110,24 +110,38 @@ const addReview=async(req,res)=>{
     await book.save();
     res.json(book)
 }
-const updateCount=async(req,res)=>{
-    if (!req?.params?.id) {
-        return res.status(400).json({ 'message': 'id parameter is required.' });
+const updateCount = async (req, res) => {
+    if (!req?.body?.ids || !Array.isArray(req.body.ids)) {
+        return res.status(400).json({ 'message': 'ids body parameter is required and it must be an array.' });
     }
-    if (!req?.body?.cont){
-        return res.status(400).json({ 'message': 'count parameter is required.' });
 
+    // Create an object to keep track of the count for each unique ID
+    const idCounts = req.body.ids.reduce((acc, id) => {
+        acc[id] = (acc[id] || 0) + 1;
+        return acc;
+    }, {});
+
+    try {
+        // Update each book's count
+        const updates = Object.entries(idCounts).map(async ([id, count]) => {
+            const book = await Books.findOne({ _id: id }).exec();
+            if (!book) {
+                throw new Error(`No Book matches ID: ${id}`);
+            }
+            book.cont -= count; // Decrement the book's count by the number of times the ID appeared
+            if (book.cont < 0) book.cont = 0; // Ensure the count doesn't go below 0
+            await book.save();
+            return book; // Return the updated book
+        });
+
+        // Wait for all updates to complete
+        const updatedBooks = await Promise.all(updates);
+        res.json(updatedBooks); // Send back the array of updated books
+    } catch (error) {
+        res.status(500).json({ 'message': error.message });
     }
-    const books = await Books.findOne({ _id: req.params.id }).exec();
-    if (!books) {
-        return res.status(204).json({ "message": `No Books matches id: ${req.params.id} not found` });
-    }
-    books.cont=req.body.cont
-    await books.save();
+};
 
-    res.json(books);
-
-}
 module.exports = {
     getAllBooks,
     createNewBooks,

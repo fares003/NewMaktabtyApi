@@ -38,6 +38,11 @@ app.use("/books", require("./routes/books"));
 app.use("/updateCount",require('./routes/count'))
 app.use("/cart",require('./routes/cart'))
 app.use('/genres',require("./routes/genresRouters"))
+app.use('/order',require('./routes/Orders'))
+app.use('/order/refund',require('./routes/refund'))
+
+app.use('/user',require('./routes/User'))
+
 app.get('/config',(req,res)=>{
   res.send({
     publishableKey:process.env.STRIPE_PUBLISHABLE_KEY
@@ -45,20 +50,19 @@ app.get('/config',(req,res)=>{
 })
 app.post('/create-payment-intent', async(req,res)=>{
   try {
-    const paymentIntent=await stripe.paymentIntents.create({
-      currency:'eur',
-      amount:1999,
-      automatic_payment_methods:{
-      
-          // Enable automatic confirmation for card payments
-          enabled: true
-       
-      }
+    const paymentIntent = await stripe.paymentIntents.create({
+      currency: 'eur',
+      amount: req.body.amount,
+      payment_method: 'pm_card_visa_cartesBancaires',
+        automatic_payment_methods: {
+    enabled: true,
+  },
+      // This is the correct way to enable automatic confirmation for card payments
     });
     res.send({ clientSecret: paymentIntent.client_secret });
   } catch (error) {
     console.error(error); 
-    res.status(400).send({'message':error})
+    res.status(400).send({ message: error.message });
   }
 });
 

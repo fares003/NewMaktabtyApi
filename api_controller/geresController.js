@@ -23,9 +23,9 @@ const deleteGenres = async (req, res) => {
         return res.status(400).json({ 'message': 'id parameter is required.' });
     }
 
-    const books = await Genre.findOne({ _id: req.params.id }).exec();
-    if (!books) {
-        return res.status(400).json({ "message": `Books ID ${req.params.id} not found` });
+    const genre = await Genre.findOne({ _id: req.params.id }).exec();
+    if (!genre) {
+        return res.status(400).json({ "message": `genre ID ${req.params.id} not found` });
     }
 
     const result = await Genre.deleteOne({ _id: req.params.id });

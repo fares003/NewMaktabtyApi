@@ -42,7 +42,7 @@ console.log(refreshToken)
                 { expiresIn: '1000s' }
             
             );
-            res.json({roles, accessToken,firstname:foundUser.firstname,lastname:foundUser.lastname,id:foundUser._id })
+            res.json({email:foundUser.email, roles, accessToken,firstname:foundUser.firstname,lastname:foundUser.lastname,id:foundUser._id })
         }
     );
 }
